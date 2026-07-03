@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import {
   Alert, Box, Button, FormControlLabel, Grow, Paper, Radio, RadioGroup,
   Slider, Typography,
@@ -26,19 +26,9 @@ const SLIDER_BLOCK_HEIGHT = 42;
 export default function DiceGame() {
   const {
     threshold, setThreshold, guess, setGuess,
+    isOverImpossible, isUnderImpossible,
     loading, lastResult, error, history, handlePlay,
   } = useDiceGame();
-
-  const isOverImpossible = threshold >= THRESHOLD_MAX;
-  const isUnderImpossible = threshold <= THRESHOLD_MIN;
-
-  useEffect(() => {
-    if (isOverImpossible && guess === 'over') {
-      setGuess('under');
-    } else if (isUnderImpossible && guess === 'under') {
-      setGuess('over');
-    }
-  }, [isOverImpossible, isUnderImpossible, guess, setGuess]);
 
   const handleThresholdChange = useCallback((_: Event, newThreshold: number | number[]) => {
     if (typeof newThreshold === 'number') setThreshold(newThreshold);

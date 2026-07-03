@@ -26,10 +26,22 @@ export function useDiceGame() {
   const [error, setError] = useState<string | null>(null);
   const [history, setHistory] = useState<HistoryItem[]>([]);
 
+  const isOverImpossible = threshold >= THRESHOLD_MAX;
+  const isUnderImpossible = threshold <= THRESHOLD_MIN;
+
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
     return () => abortControllerRef.current?.abort();
+  }, []);
+
+  const changeThreshold = useCallback((nextThreshold: number) => {
+    setThreshold(nextThreshold);
+    setGuess(prev => {
+      if (nextThreshold >= THRESHOLD_MAX && prev === 'over') return 'under';
+      if (nextThreshold <= THRESHOLD_MIN && prev === 'under') return 'over';
+      return prev;
+    });
   }, []);
 
   const handlePlay = useCallback(async () => {
@@ -70,9 +82,11 @@ export function useDiceGame() {
 
   return {
     threshold,
-    setThreshold,
+    setThreshold: changeThreshold,
     guess,
     setGuess,
+    isOverImpossible,
+    isUnderImpossible,
     loading,
     lastResult,
     error,
