@@ -1,27 +1,43 @@
 # Dice Game
 
-A casino-style dice game built with Next.js, TypeScript, and Material UI.
+Простая игра на Next.js + TypeScript + Material UI.
 
-## How it works
+## Как это работает
 
-- Pick a threshold (1–99) and choose whether the roll should land **Under** or **Over** it.
-- Click **Play** to roll — the result (1–100) is generated server-side via `crypto.createHash('sha256')` on a random server seed, so it can't be manipulated from the browser.
-- A result equal to the threshold satisfies neither condition and counts as a loss.
-- The last 10 rolls are kept in a history list.
+Выбираешь threshold (порог) от 0 до 100, затем сторону - Under или Over.
+Нажимаешь Play, и сервер бросает число от 1 до 100 (через `crypto.randomInt`,
+подделать из браузера нельзя). Последние 10 бросков видны в таблице истории.
 
-## Getting started
+Правила победы:
 
-```bash
-npm install
-npm run dev
-```
+- **Under X** побеждает, если `результат < X`.
+- **Over X** побеждает, если `результат > X`.
+- Если результат равен X - всегда проигрыш, для обеих сторон.
 
-Open [http://localhost:3000](http://localhost:3000).
+Важно: реальный бросок - это число от 1 до 100, ноль никогда не выпадает.
+Ноль - это только нижняя граница шкалы threshold, не возможный результат.
 
-## Project structure
+Крайние значения threshold:
 
-- `app/api/play/route.ts` — server-side roll endpoint
-- `hooks/useDiceGame.ts` — game state and API calls
-- `components/` — `DiceGame`, `ResultAlert`, `HistoryTable`
-- `lib/constants.ts` — shared threshold/history bounds
-- `types/game.ts` — request/response types
+- Threshold **100**: Over выиграть не может (результат не бывает больше 100),
+  поэтому Over отключен в интерфейсе. Under побеждает при любом результате,
+  кроме 100.
+- Threshold **0**: Under выиграть не может (результат не бывает меньше 1),
+  поэтому Under отключен в интерфейсе. Over побеждает при любом результате,
+  так как любой бросок больше 0.
+
+## Почему `crypto.randomInt`
+
+Бросок генерируется через `crypto.randomInt(DICE_ROLL_MIN, DICE_ROLL_MAX + 1)`
+(см. `app/api/play/route.ts`), а не через обычный `Math.random()`. Причины:
+
+- `Math.random()` - псевдослучайный генератор общего назначения, не
+  криптостойкий: значения потенциально предсказуемы, что критично для
+  игры на деньги/ставки.
+- `crypto.randomInt` берёт случайность из криптографического источника ОС
+  и даёт равномерное распределение без смещения по краям диапазона.
+- Бросок всегда считается на сервере (в этом роуте), а не на клиенте -
+  значение нельзя подделать через консоль браузера.
+- Нижняя граница `DICE_ROLL_MIN = 1` гарантирует, что 0 никогда не
+  выпадет как результат броска - ноль существует только как граница
+  шкалы threshold.
