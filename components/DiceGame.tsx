@@ -2,11 +2,11 @@
 
 import { useCallback, useEffect } from 'react';
 import {
-  Alert, Box, Button, FormControlLabel, Paper, Radio, RadioGroup,
+  Alert, Box, Button, FormControlLabel, Grow, Paper, Radio, RadioGroup,
   Slider, Typography,
 } from '@mui/material';
 import { GuessType } from '@/types/game';
-import { THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
+import { MAX_HISTORY, THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
 import ResultAlert from './ResultAlert';
 import HistoryTable from './HistoryTable';
 import { useDiceGame } from '@/hooks/useDiceGame';
@@ -16,6 +16,8 @@ const RESULT_DISPLAY_WIDTH = 300;
 const RESULT_DISPLAY_HEIGHT = 170;
 const RESULT_FONT_SIZE = 96;
 const RESULT_FONT_WEIGHT = 300;
+const HISTORY_ROW_HEIGHT = 37;
+const HISTORY_RESERVED_HEIGHT = HISTORY_ROW_HEIGHT * (MAX_HISTORY + 1);
 
 export default function DiceGame() {
   const {
@@ -44,15 +46,23 @@ export default function DiceGame() {
 
   return (
     <Box>
-      {error && (
-        <Alert severity="error" sx={{ mb: 2 }}>
-          {error}
-        </Alert>
-      )}
+      <Box sx={{ display: 'grid', pb: 2 }}>
+        <Box sx={{ gridArea: '1 / 1', visibility: 'hidden' }} aria-hidden>
+          <ResultAlert result={{ result: 0, isWin: true }} threshold={threshold} guess={guess} />
+        </Box>
 
-      {lastResult && (
-        <ResultAlert result={lastResult} threshold={threshold} guess={guess} />
-      )}
+        <Box sx={{ gridArea: '1 / 1' }}>
+          {error && (
+            <Alert severity="error">
+              {error}
+            </Alert>
+          )}
+
+          {lastResult && (
+            <ResultAlert result={lastResult} threshold={threshold} guess={guess} />
+          )}
+        </Box>
+      </Box>
 
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
         <Paper
@@ -68,16 +78,18 @@ export default function DiceGame() {
             borderRadius: 2,
           }}
         >
-          <Typography
-            variant="h1"
-            sx={{ fontSize: RESULT_FONT_SIZE, fontWeight: RESULT_FONT_WEIGHT, color: 'text.primary' }}
-          >
-            {lastResult ? lastResult.result : '?'}
-          </Typography>
+          <Grow key={lastResult ? lastResult.result : threshold} in timeout={300}>
+            <Typography
+              variant="h1"
+              sx={{ fontSize: RESULT_FONT_SIZE, fontWeight: RESULT_FONT_WEIGHT, color: 'text.primary' }}
+            >
+              {lastResult ? lastResult.result : threshold}
+            </Typography>
+          </Grow>
         </Paper>
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3}}>
         <RadioGroup
           row
           value={guess}
@@ -128,11 +140,9 @@ export default function DiceGame() {
         {loading ? 'Rolling...' : 'PLAY'}
       </Button>
 
-      {history.length > 0 && (
-        <Box sx={{ mt: 4 }}>
-          <HistoryTable history={history} />
-        </Box>
-      )}
+      <Box sx={{ mt: 4, minHeight: HISTORY_RESERVED_HEIGHT }}>
+        {history.length > 0 && <HistoryTable history={history} />}
+      </Box>
     </Box>
   );
 }
