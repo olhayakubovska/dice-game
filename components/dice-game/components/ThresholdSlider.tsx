@@ -1,7 +1,7 @@
 'use client';
 
 import { Box, Slider, Typography } from '@mui/material';
-import { diceSliderMarks, diceSliderSx, MARK_SIZE } from './diceSliderSx';
+import { diceSliderMarks, diceSliderSx, MARK_SIZE } from '@/lib/diceSliderSx';
 
 const CONTENT_WIDTH = 320;
 const SLIDER_TOP_SPACING = 37;
