@@ -7,6 +7,12 @@ const theme = createTheme({
       main: '#9C27B0',
       light: '#e1bee7',
     },
+    success: {
+      main: '#2E7D32',
+    },
+    error: {
+      main: '#D32F2C',
+    },
   },
 });
 

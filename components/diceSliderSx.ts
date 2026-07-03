@@ -1,12 +1,12 @@
 import { alpha, SxProps, Theme } from '@mui/material/styles';
 
-export const MARK_SIZE = 6;
+export const MARK_SIZE = 2;
 const THUMB_SIZE = 12;
 const THUMB_GLOW_SPREAD = 10;
 const THUMB_GLOW_OPACITY = 0.16;
 
 export const diceSliderSx: SxProps<Theme> = {
-  height: 4,
+  height: 2,
   '& .MuiSlider-rail': {
     opacity: 1,
     backgroundColor: 'secondary.light',

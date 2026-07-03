@@ -3,7 +3,7 @@ import DiceGame from "@/components/DiceGame";
 
 export default function Home() {
   return (
-    <Container maxWidth="sm" sx={{ py: 6 }}>
+    <Container maxWidth="sm" sx={{ py: 1 }}>
       <DiceGame />
     </Container>
   );
