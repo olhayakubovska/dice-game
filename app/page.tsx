@@ -1,5 +1,5 @@
 import { Container } from "@mui/material";
-import DiceGame from "@/components/DiceGame";
+import DiceGame from "@/components/dice-game/DiceGame";
 
 export default function Home() {
   return (

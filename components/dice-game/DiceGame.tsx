@@ -2,11 +2,11 @@
 
 import { Box } from '@mui/material';
 import { THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
-import PlayResult from './PlayResult';
-import GuessSelector from './GuessSelector';
-import ThresholdSlider from './ThresholdSlider';
-import PlayButton from './PlayButton';
-import HistoryTable from './HistoryTable';
+import PlayResult from './components/PlayResult';
+import GuessSelector from './components/GuessSelector';
+import ThresholdSlider from './components/ThresholdSlider';
+import PlayButton from './components/PlayButton';
+import HistoryTable from './components/HistoryTable';
 import { useDiceGame } from '@/hooks/useDiceGame';
 
 export default function DiceGame() {
