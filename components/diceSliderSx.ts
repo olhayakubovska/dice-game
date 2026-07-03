@@ -3,7 +3,6 @@ import { alpha, SxProps, Theme } from '@mui/material/styles';
 export const MARK_SIZE = 6;
 const THUMB_SIZE = 12;
 const THUMB_GLOW_SPREAD = 10;
-export const THUMB_ACTIVE_GLOW_SPREAD = THUMB_GLOW_SPREAD;
 const THUMB_GLOW_OPACITY = 0.16;
 
 export const diceSliderSx: SxProps<Theme> = {
@@ -32,14 +31,6 @@ export const diceSliderSx: SxProps<Theme> = {
     backgroundColor: 'secondary.main',
     boxShadow: (theme) =>
       `0 0 0 ${THUMB_GLOW_SPREAD}px ${alpha(theme.palette.secondary.main, THUMB_GLOW_OPACITY)}`,
-    '&:hover, &.Mui-focusVisible': {
-      boxShadow: (theme) =>
-        `0 0 0 ${THUMB_GLOW_SPREAD}px ${alpha(theme.palette.secondary.main, THUMB_GLOW_OPACITY)}`,
-    },
-    '&.Mui-active': {
-      boxShadow: (theme) =>
-        `0 0 0 ${THUMB_ACTIVE_GLOW_SPREAD}px ${alpha(theme.palette.secondary.main, THUMB_GLOW_OPACITY)}`,
-    },
   },
   '& .MuiSlider-valueLabel': {
     width: 41,
@@ -47,9 +38,8 @@ export const diceSliderSx: SxProps<Theme> = {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#757575',
+    backgroundColor: 'grey.600',
     borderRadius: 1,
-    fontFamily: 'Roboto',
     fontWeight: 500,
     fontSize: 14,
     lineHeight: '157%',
@@ -67,4 +57,3 @@ export const diceSliderMarks = [
   { value: 83.33 },
   { value: 100 },
 ];
-

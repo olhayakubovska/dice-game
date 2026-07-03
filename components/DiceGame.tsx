@@ -6,7 +6,7 @@ import {
   Slider, Typography,
 } from '@mui/material';
 import { GuessType } from '@/types/game';
-import { MAX_HISTORY, THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
+import { THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
 import ResultAlert from './ResultAlert';
 import HistoryTable from './HistoryTable';
 import { useDiceGame } from '@/hooks/useDiceGame';
@@ -18,11 +18,8 @@ const RESULT_FONT_SIZE = 96;
 const RESULT_FONT_WEIGHT = 300;
 const RESULT_FONT_LINE_HEIGHT = '117%';
 const RESULT_FONT_LETTER_SPACING = '-1.5px';
-const HISTORY_ROW_HEIGHT = 37;
-const HISTORY_RESERVED_HEIGHT = HISTORY_ROW_HEIGHT * (MAX_HISTORY + 1);
 const PLAY_BUTTON_WIDTH = 320;
 const PLAY_BUTTON_HEIGHT = 62;
-const PLAY_BUTTON_COLOR = '#9C27B0';
 const SLIDER_TOP_SPACING = 37;
 const SLIDER_BLOCK_HEIGHT = 42;
 
@@ -89,7 +86,6 @@ export default function DiceGame() {
             <Typography
               variant="h1"
               sx={{
-                fontFamily: 'Roboto',
                 fontSize: RESULT_FONT_SIZE,
                 fontWeight: RESULT_FONT_WEIGHT,
                 lineHeight: RESULT_FONT_LINE_HEIGHT,
@@ -161,25 +157,26 @@ export default function DiceGame() {
       <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
         <Button
           variant="contained"
+          color="secondary"
           size="large"
           onClick={handlePlay}
           disabled={loading}
           sx={{
             width: PLAY_BUTTON_WIDTH,
             height: PLAY_BUTTON_HEIGHT,
-            bgcolor: PLAY_BUTTON_COLOR,
             fontWeight: 700,
             letterSpacing: 1,
-            '&:hover': { bgcolor: PLAY_BUTTON_COLOR },
           }}
         >
           {loading ? 'Rolling...' : 'PLAY'}
         </Button>
       </Box>
 
-      <Box sx={{ mt: 4, minHeight: HISTORY_RESERVED_HEIGHT }}>
-        {history.length > 0 && <HistoryTable history={history} />}
-      </Box>
+      {history.length > 0 && (
+        <Box sx={{ mt: 4 }}>
+          <HistoryTable history={history} />
+        </Box>
+      )}
     </Box>
   );
 }

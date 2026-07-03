@@ -23,7 +23,6 @@ export default function HistoryTable({ history }: Props) {
           <TableCell sx={headerCellSx}>Result</TableCell>
         </TableRow>
       </TableHead>
-      
       <TableBody>
         {history.map((item) => (
           <TableRow key={item.id}>
