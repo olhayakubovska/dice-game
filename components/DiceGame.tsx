@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import {
   Alert, Box, Button, FormControlLabel, Paper, Radio, RadioGroup,
   Slider, Typography,
@@ -34,6 +34,14 @@ export default function DiceGame() {
     }
   }, [isOverImpossible, isUnderImpossible, guess, setGuess]);
 
+  const handleThresholdChange = useCallback((_: Event, newThreshold: number | number[]) => {
+    if (typeof newThreshold === 'number') setThreshold(newThreshold);
+  }, [setThreshold]);
+
+  const handleGuessChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setGuess(e.target.value as GuessType);
+  }, [setGuess]);
+
   return (
     <Box>
       {error && (
@@ -49,6 +57,7 @@ export default function DiceGame() {
       <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
         <Paper
           elevation={0}
+          aria-live="polite"
           sx={{
             width: RESULT_DISPLAY_WIDTH,
             height: RESULT_DISPLAY_HEIGHT,
@@ -72,7 +81,7 @@ export default function DiceGame() {
         <RadioGroup
           row
           value={guess}
-          onChange={(e) => setGuess(e.target.value as GuessType)}
+          onChange={handleGuessChange}
         >
           <FormControlLabel
             value="under"
@@ -92,9 +101,7 @@ export default function DiceGame() {
       <Box sx={{ px: 4, mb: 3 }}>
         <Slider
           value={threshold}
-          onChange={(_, val) => {
-            if (typeof val === 'number') setThreshold(val);
-          }}
+          onChange={handleThresholdChange}
           min={THRESHOLD_MIN}
           max={THRESHOLD_MAX}
           step={1}

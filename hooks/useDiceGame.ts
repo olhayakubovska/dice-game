@@ -50,15 +50,15 @@ export function useDiceGame() {
         signal: controller.signal,
       });
 
-      if (!res.ok) {
-        throw new Error('Server error');
-      }
-
       const data: PlayResponse | PlayErrorResponse = await res.json();
 
       if (isPlayError(data)) {
         setError(data.error);
         return;
+      }
+
+      if (!res.ok) {
+        throw new Error('Server error');
       }
 
       setLastResult(data);
