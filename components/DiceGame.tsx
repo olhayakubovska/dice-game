@@ -10,14 +10,21 @@ import { MAX_HISTORY, THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
 import ResultAlert from './ResultAlert';
 import HistoryTable from './HistoryTable';
 import { useDiceGame } from '@/hooks/useDiceGame';
-import { diceSliderMarks, diceSliderSx } from './diceSliderSx';
+import { diceSliderMarks, diceSliderSx, MARK_SIZE } from './diceSliderSx';
 
-const RESULT_DISPLAY_WIDTH = 300;
-const RESULT_DISPLAY_HEIGHT = 170;
+const RESULT_DISPLAY_WIDTH = 320;
+const RESULT_DISPLAY_HEIGHT = 200;
 const RESULT_FONT_SIZE = 96;
 const RESULT_FONT_WEIGHT = 300;
+const RESULT_FONT_LINE_HEIGHT = '117%';
+const RESULT_FONT_LETTER_SPACING = '-1.5px';
 const HISTORY_ROW_HEIGHT = 37;
 const HISTORY_RESERVED_HEIGHT = HISTORY_ROW_HEIGHT * (MAX_HISTORY + 1);
+const PLAY_BUTTON_WIDTH = 320;
+const PLAY_BUTTON_HEIGHT = 62;
+const PLAY_BUTTON_COLOR = '#9C27B0';
+const SLIDER_TOP_SPACING = 37;
+const SLIDER_BLOCK_HEIGHT = 42;
 
 export default function DiceGame() {
   const {
@@ -46,7 +53,7 @@ export default function DiceGame() {
 
   return (
     <Box>
-      <Box sx={{ display: 'grid', pb: 2 }}>
+      <Box sx={{ display: 'grid', pb: 1 }}>
         <Box sx={{ gridArea: '1 / 1', visibility: 'hidden' }} aria-hidden>
           <ResultAlert result={{ result: 0, isWin: true }} threshold={threshold} guess={guess} />
         </Box>
@@ -64,7 +71,7 @@ export default function DiceGame() {
         </Box>
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3 }}>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
         <Paper
           elevation={0}
           aria-live="polite"
@@ -81,7 +88,14 @@ export default function DiceGame() {
           <Grow key={lastResult ? lastResult.result : threshold} in timeout={300}>
             <Typography
               variant="h1"
-              sx={{ fontSize: RESULT_FONT_SIZE, fontWeight: RESULT_FONT_WEIGHT, color: 'text.primary' }}
+              sx={{
+                fontFamily: 'Roboto',
+                fontSize: RESULT_FONT_SIZE,
+                fontWeight: RESULT_FONT_WEIGHT,
+                lineHeight: RESULT_FONT_LINE_HEIGHT,
+                letterSpacing: RESULT_FONT_LETTER_SPACING,
+                color: 'text.primary',
+              }}
             >
               {lastResult ? lastResult.result : threshold}
             </Typography>
@@ -89,11 +103,12 @@ export default function DiceGame() {
         </Paper>
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: 'center', mb: 3}}>
+      <Box sx={{ width: PLAY_BUTTON_WIDTH, mx: 'auto' }}>
         <RadioGroup
           row
           value={guess}
           onChange={handleGuessChange}
+          sx={{ justifyContent: 'center' }}
         >
           <FormControlLabel
             value="under"
@@ -110,7 +125,18 @@ export default function DiceGame() {
         </RadioGroup>
       </Box>
 
-      <Box sx={{ px: 4, mb: 3 }}>
+      <Box
+        sx={{
+          width: PLAY_BUTTON_WIDTH,
+          height: SLIDER_BLOCK_HEIGHT,
+          mx: 'auto',
+          mb: 3,
+          mt: `${SLIDER_TOP_SPACING}px`,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
         <Slider
           value={threshold}
           onChange={handleThresholdChange}
@@ -120,25 +146,36 @@ export default function DiceGame() {
           marks={diceSliderMarks}
           valueLabelDisplay="on"
           color="secondary"
-          sx={diceSliderSx}
+          sx={{
+            ...diceSliderSx,
+            width: `calc(100% - ${MARK_SIZE}px)`,
+            mx: `${MARK_SIZE / 2}px`,
+          }}
         />
-        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
           <Typography variant="caption" color="text.secondary">{THRESHOLD_MIN}</Typography>
           <Typography variant="caption" color="text.secondary">{THRESHOLD_MAX}</Typography>
         </Box>
       </Box>
 
-      <Button
-        variant="contained"
-        color="secondary"
-        fullWidth
-        size="large"
-        onClick={handlePlay}
-        disabled={loading}
-        sx={{ py: 1.5, fontWeight: 700, letterSpacing: 1 }}
-      >
-        {loading ? 'Rolling...' : 'PLAY'}
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+        <Button
+          variant="contained"
+          size="large"
+          onClick={handlePlay}
+          disabled={loading}
+          sx={{
+            width: PLAY_BUTTON_WIDTH,
+            height: PLAY_BUTTON_HEIGHT,
+            bgcolor: PLAY_BUTTON_COLOR,
+            fontWeight: 700,
+            letterSpacing: 1,
+            '&:hover': { bgcolor: PLAY_BUTTON_COLOR },
+          }}
+        >
+          {loading ? 'Rolling...' : 'PLAY'}
+        </Button>
+      </Box>
 
       <Box sx={{ mt: 4, minHeight: HISTORY_RESERVED_HEIGHT }}>
         {history.length > 0 && <HistoryTable history={history} />}
