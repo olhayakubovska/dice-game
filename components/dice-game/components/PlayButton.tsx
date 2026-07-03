@@ -22,8 +22,6 @@ export default function PlayButton({ loading, onClick }: Props) {
         sx={{
           width: PLAY_BUTTON_WIDTH,
           height: PLAY_BUTTON_HEIGHT,
-          py: '8px',
-          px: '22px',
           fontWeight: 700,
           letterSpacing: 1,
         }}
