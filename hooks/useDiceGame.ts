@@ -64,8 +64,13 @@ export function useDiceGame() {
 
       const data: PlayResponse | PlayErrorResponse = await res.json();
 
-      if (!res.ok || isPlayError(data)) {
-        setError(isPlayError(data) ? data.error : 'Server error');
+      if (isPlayError(data)) {
+        setError(data.error);
+        return;
+      }
+
+      if (!res.ok) {
+        setError('Server error');
         return;
       }
 
