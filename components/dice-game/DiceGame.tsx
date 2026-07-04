@@ -18,7 +18,13 @@ export default function DiceGame() {
 
   return (
     <Box>
-      <PlayResult threshold={threshold} guess={guess} lastResult={lastResult} error={error} />
+      <PlayResult
+        threshold={threshold}
+        guess={guess}
+        lastResult={lastResult}
+        error={error}
+        loading={loading}
+      />
 
       <GuessSelector
         value={guess}

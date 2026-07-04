@@ -10,9 +10,10 @@ interface Props {
   guess: GuessType;
   lastResult: PlayResponse | null;
   error: string | null;
+  loading: boolean;
 }
 
-export default function PlayResult({ threshold, guess, lastResult, error }: Props) {
+export default function PlayResult({ threshold, guess, lastResult, error, loading }: Props) {
   return (
     <>
       <Box sx={{ display: "grid", pb: 1 }}>
@@ -29,7 +30,7 @@ export default function PlayResult({ threshold, guess, lastResult, error }: Prop
       </Box>
 
       <Box sx={{ display: "flex", justifyContent: "center", mb: 2 }}>
-        <ResultDisplay value={lastResult ? lastResult.result : threshold} />
+        <ResultDisplay value={lastResult ? lastResult.result : null} loading={loading} />
       </Box>
     </>
   );
