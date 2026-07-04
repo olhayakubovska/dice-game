@@ -31,7 +31,7 @@ export default function HistoryTable({ history }: Props) {
               <TableCell>
                 {item.guess === 'under' ? 'Under' : 'Over'} {item.threshold}
               </TableCell>
-              <TableCell sx={{ color: item.isWin ? 'success.main' : 'error.main', fontWeight: 700 }}>
+              <TableCell sx={{ color: item.isWin ? 'success.main' : 'error.main', fontWeight: 500 }}>
                 {item.result}
               </TableCell>
             </TableRow>

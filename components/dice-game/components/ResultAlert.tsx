@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import { Alert, AlertTitle } from '@mui/material';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutlineOutlined';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutlineOutlined';
-import { PlayResponse, GuessType } from '@/types/game';
+import { Alert, AlertTitle } from "@mui/material";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import { GuessType, PlayResponse } from "@/types/game";
+
+const ALERT_WIDTH = 600;
+const ALERT_HEIGHT_WITH_SUBTITLE = 76;
+const ALERT_HEIGHT = 48;
 
 interface Props {
   result: PlayResponse;
@@ -11,18 +15,24 @@ interface Props {
   guess: GuessType;
 }
 
-export default function ResultAlert({ result, threshold, guess }: Props) {
-  const comparison = guess === 'under' ? 'less than' : 'greater than';
+export default function ResultAlert({ result, threshold }: Props) {
+  const direction = result.result > threshold ? "higher" : "lower";
 
   return (
     <Alert
       variant="filled"
-      severity={result.isWin ? 'success' : 'error'}
+      severity={result.isWin ? "success" : "error"}
       icon={result.isWin ? <CheckCircleOutlineIcon /> : <ErrorOutlineIcon />}
-      sx={{ mb: 2 }}
+      sx={{
+        mb: 2,
+        width: ALERT_WIDTH,
+        height: result.isWin ? ALERT_HEIGHT : ALERT_HEIGHT_WITH_SUBTITLE,
+        py: '6px',
+        px: '16px',
+      }}
     >
-      <AlertTitle>{result.isWin ? 'You won' : 'You lost'}</AlertTitle>
-      {`Number was ${result.result} — expected ${comparison} ${threshold}`}
+      <AlertTitle>{result.isWin ? "You won" : "You lost"}</AlertTitle>
+      {!result.isWin && `Number was ${direction}`}
     </Alert>
   );
 }
