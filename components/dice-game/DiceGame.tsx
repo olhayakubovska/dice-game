@@ -2,11 +2,12 @@
 
 import { Box } from '@mui/material';
 import { THRESHOLD_MAX, THRESHOLD_MIN } from '@/lib/constants';
-import PlayResult from './components/PlayResult';
-import GuessSelector from './components/GuessSelector';
-import ThresholdSlider from './components/ThresholdSlider';
-import PlayButton from './components/PlayButton';
-import HistoryTable from './components/HistoryTable';
+import ResultAlertArea from './organisms/ResultAlertArea';
+import ResultDisplay from './organisms/ResultDisplay';
+import HistoryTable from './organisms/HistoryTable';
+import GuessSelector from './molecules/GuessSelector';
+import ThresholdSlider from './molecules/ThresholdSlider';
+import PlayButton from './molecules/PlayButton';
 import { useDiceGame } from '@/hooks/useDiceGame';
 
 export default function DiceGame() {
@@ -18,13 +19,9 @@ export default function DiceGame() {
 
   return (
     <Box>
-      <PlayResult
-        threshold={threshold}
-        guess={guess}
-        lastResult={lastResult}
-        error={error}
-        loading={loading}
-      />
+      <ResultAlertArea threshold={threshold} guess={guess} lastResult={lastResult} error={error} />
+
+      <ResultDisplay value={lastResult ? lastResult.result : null} loading={loading} />
 
       <GuessSelector
         value={guess}

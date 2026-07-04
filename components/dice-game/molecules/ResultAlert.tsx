@@ -1,8 +1,7 @@
 "use client";
 
 import { Alert, AlertTitle } from "@mui/material";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutlineOutlined";
+import StatusIcon from "../atoms/StatusIcon";
 import { GuessType, PlayResponse } from "@/types/game";
 
 const ALERT_WIDTH = 600;
@@ -22,7 +21,7 @@ export default function ResultAlert({ result, threshold }: Props) {
     <Alert
       variant="filled"
       severity={result.isWin ? "success" : "error"}
-      icon={result.isWin ? <CheckCircleOutlineIcon /> : <ErrorOutlineIcon />}
+      icon={<StatusIcon isWin={result.isWin} />}
       sx={{
         mb: 2,
         width: ALERT_WIDTH,

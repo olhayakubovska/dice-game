@@ -7,26 +7,13 @@ const RESULT_FONT_SIZE = 96;
 const RESULT_FONT_WEIGHT = 300;
 const RESULT_FONT_LINE_HEIGHT = '117%';
 const RESULT_FONT_LETTER_SPACING = '-1.5px';
-const START_HINT_FONT_SIZE = 24;
 
 interface Props {
-  value: number | null;
+  value: number;
 }
 
-const ResultContent = forwardRef<HTMLSpanElement, Props>(
-  function ResultContent({ value }, ref) {
-    if (value === null) {
-      return (
-        <Typography
-          ref={ref}
-          variant="h6"
-          sx={{ fontSize: START_HINT_FONT_SIZE, color: 'text.secondary' }}
-        >
-          Start playing
-        </Typography>
-      );
-    }
-
+const ResultNumber = forwardRef<HTMLSpanElement, Props>(
+  function ResultNumber({ value }, ref) {
     return (
       <Typography
         ref={ref}
@@ -45,4 +32,4 @@ const ResultContent = forwardRef<HTMLSpanElement, Props>(
   },
 );
 
-export default ResultContent;
+export default ResultNumber;
