@@ -13,10 +13,6 @@ interface Props {
 }
 
 export default function ResultDisplay({ value, loading }: Props) {
-  let content = <StartHint />;
-  if (value !== null) content = <ResultNumber value={value} />;
-  if (loading) content = <CircularProgress color="secondary" />;
-
   return (
     <Paper
       elevation={0}
@@ -33,7 +29,13 @@ export default function ResultDisplay({ value, loading }: Props) {
         borderRadius: 2,
       }}
     >
-      {loading ? content : <Grow key={value ?? 'start'} in timeout={300}>{content}</Grow>}
+      {loading ? (
+        <CircularProgress color="secondary" />
+      ) : (
+        <Grow key={value ?? 'start'} in timeout={300}>
+          {value !== null ? <ResultNumber value={value} /> : <StartHint />}
+        </Grow>
+      )}
     </Paper>
   );
 }
